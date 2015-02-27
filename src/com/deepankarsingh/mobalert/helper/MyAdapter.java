@@ -59,7 +59,6 @@ public class MyAdapter extends BaseAdapter {
 				.findViewById(R.id.tcontactPhone);
 		tname.setText(name.get(position));
 		tnumber.setText(number.get(position));
-
 		return convertView;
 	}
 }

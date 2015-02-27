@@ -52,7 +52,7 @@ public class AlertFromWidget extends Service implements LocationListener {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		dbObj = new DbConnect(getApplicationContext());
-		n = dbObj.getname().getCount();
+		n = dbObj.getInfo().getCount();
 
 		if (n == 0) {
 			Toast.makeText(getApplicationContext(),

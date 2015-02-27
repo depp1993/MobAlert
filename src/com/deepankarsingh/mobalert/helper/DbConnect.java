@@ -17,8 +17,8 @@ public class DbConnect extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "MobAlertContacts.db";
 	private static final String DATABASE_TABLE = "Contacts";
 	private static final int DATABASE_VERSION = 1;
-	private static final String NAME = "name";
-	private static final String NUMBER = "number";
+	public static final String NAME = "name";
+	public static final String NUMBER = "number";
 	private static final String CREATE_TABLE = "CREATE TABLE " + DATABASE_TABLE
 			+ "(" + NAME + " VARCHAR(40)," + NUMBER
 			+ " VARCHAR(20) PRIMARY KEY)";
@@ -61,17 +61,26 @@ public class DbConnect extends SQLiteOpenHelper {
 		db.insert(DATABASE_TABLE, null, contentValues);
 	}
 
-	public Cursor getname() {
+	public Cursor getInfo() {
 		SQLiteDatabase db = getReadableDatabase();
-		String query = "SELECT " + NAME + " FROM " + DATABASE_TABLE;
-		Cursor cr = db.rawQuery(query, null);
+		String columns[] = { NAME, NUMBER};
+		Cursor cr = db.query(DATABASE_TABLE, columns, null, null, null, null,
+				null);
 		return cr;
 	}
 
 	public Cursor getphone() {
 		SQLiteDatabase db = getReadableDatabase();
-		String query = "SELECT " + NUMBER + " FROM " + DATABASE_TABLE;
-		Cursor cr = db.rawQuery(query, null);
+		String columns[] = { NUMBER };
+		Cursor cr = db.query(DATABASE_TABLE, columns, null, null, null, null,
+				null);
+		return cr;
+	}
+	public Cursor getname() {
+		SQLiteDatabase db = getReadableDatabase();
+		String columns[] = { NAME };
+		Cursor cr = db.query(DATABASE_TABLE, columns, null, null, null, null,
+				null);
 		return cr;
 	}
 

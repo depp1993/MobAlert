@@ -13,6 +13,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,7 +78,7 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		sr.destroy(); //when clicked, stop listening.
 		//database connectivity need to check if there is name in the emergency contacts or not.
 		final DbConnect db = new DbConnect(getActivity());
-		n = db.getname().getCount();
+		n = db.getInfo().getCount();
 		db.close();
 		if (v.getId() == R.id.b_alert) {
 			if (n != 0) {
@@ -159,9 +160,11 @@ public class FragmentMain extends Fragment implements OnClickListener {
 	class listener implements RecognitionListener {
 		
 		public void onReadyForSpeech(Bundle params) {
+			Log.d("CHECK","onReadyForSpeech");
 		}
 
 		public void onBeginningOfSpeech() {
+			Log.d("CHECK","onBeginningOfSpeech");
 		}
 
 		public void onRmsChanged(float rmsdB) {
@@ -171,10 +174,12 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		}
 
 		public void onEndOfSpeech() {
+			Log.d("CHECK","onEndOfSpeech");
 		}
 
 		//if error , start listening again
 		public void onError(int error) {
+			Log.d("CHECK","error" + error);
 			Toast.makeText(getActivity(), "Not able to recognise 'Help'!", Toast.LENGTH_SHORT).show();
 			sr.destroy();
 			if(flag == 0)
@@ -192,6 +197,7 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		}
 		//results after speech recognintion
 		public void onResults(Bundle results) {
+			Log.d("CHECK","onResults");
 			ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 			StringTokenizer st = new StringTokenizer(data.get(0));
 			while(st.hasMoreElements())

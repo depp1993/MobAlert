@@ -30,13 +30,11 @@ import com.deepankarsingh.mobalert.helper.MyAdapter;
 public class FragmentPeople extends Fragment {
 
 	protected static final int PICK_CONTACT_FROM_LIST = 5;
-	int n;
 	private ImageButton baddNew;
 	private ImageButton baddContact;
 	private ListView alertcontacts;
-	private DbConnect connect;
-	private Cursor name;
-	private Cursor phone;
+	private DbConnect db;
+	private Cursor info;
 	MainActivity obj = new MainActivity();
 
 	@Override
@@ -99,7 +97,7 @@ public class FragmentPeople extends Fragment {
 				Uri contactData = data.getData();
 				Cursor c = getActivity().getContentResolver().query(
 						contactData, null, null, null, null);
-				if (c.moveToFirst()) {
+				while (c.moveToNext()) {
 					id = c.getString(c
 							.getColumnIndex(ContactsContract.Contacts._ID));
 					c_name = c.getString(c
@@ -109,37 +107,36 @@ public class FragmentPeople extends Fragment {
 							null,
 							ContactsContract.CommonDataKinds.Phone.CONTACT_ID
 									+ " = " + id, null, null);
-					if (pCur.moveToFirst()) {
-						p_no = pCur
-								.getString(pCur.getColumnIndex(Phone.NUMBER));
-						connect.insert(c_name, p_no);
-					} else
+					if (pCur.getCount() <= 0)
 						Toast.makeText(getActivity(),
 								"No phone no for selected contact",
 								Toast.LENGTH_LONG).show();
-					
-					obj.peopleFlag = 1;
-					showListView();
+					else {
+						while (pCur.moveToNext()) {
+							p_no = pCur.getString(pCur
+									.getColumnIndex(Phone.NUMBER));
+							db.insert(c_name, p_no);
+							obj.peopleFlag = 1;
+						}
+					}
 				}
 			}
 		}
 	}
 
 	public void showListView() {
-		connect = new DbConnect(getActivity());
-		name = connect.getname();
-		phone = connect.getphone();
-		n = name.getCount();
 
+		db = new DbConnect(getActivity());
+		info = db.getInfo();
+		
 		ArrayList<String> name_array = new ArrayList<String>();
 		ArrayList<String> phone_array = new ArrayList<String>();
-		name.moveToFirst();
-		phone.moveToFirst();
-		for (int i = 0; i < n; i++) {
-			name_array.add(name.getString(0));
-			name.moveToNext();
-			phone_array.add(phone.getString(0));
-			phone.moveToNext();
+		
+		while (info.moveToNext()) {
+			String n = info.getString(info.getColumnIndex(DbConnect.NAME));
+			name_array.add(n);
+			String p = info.getString(info.getColumnIndex(DbConnect.NUMBER));
+			phone_array.add(p);
 		}
 		MyAdapter adap = new MyAdapter(getActivity(), name_array, phone_array);
 		alertcontacts.setAdapter(adap);
@@ -153,7 +150,7 @@ public class FragmentPeople extends Fragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				connect.delete(name, num);
+				db.delete(name, num);
 				showListView();
 			}
 		});
