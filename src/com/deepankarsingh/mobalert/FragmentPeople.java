@@ -66,8 +66,8 @@ public class FragmentPeople extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-
-				Intent i = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+				Intent i = new Intent(Intent.ACTION_PICK,
+						ContactsContract.Contacts.CONTENT_URI);
 				startActivityForResult(i, PICK_CONTACT_FROM_LIST);
 			}
 		});
@@ -96,35 +96,20 @@ public class FragmentPeople extends Fragment {
 				String p_no = null;
 				String c_name = null;
 				String id = null;
-
 				Uri contactData = data.getData();
 				Cursor c = getActivity().getContentResolver().query(
 						contactData, null, null, null, null);
-
-				// StringBuffer buffer = new StringBuffer();
-				// while (c.moveToNext()) {
-				// int index = c.getColumnIndex(Contacts._ID);
-				// int index1 = c.getColumnIndex(Contacts.DISPLAY_NAME);
-				// String _ID = c.getString(index);
-				// String _name = c.getString(index1);
-				// buffer.append(_ID + " " + _name + "Row count = "
-				// + c.getCount() + "\n");
-				// }
-				//
-				// Toast.makeText(getActivity(), buffer.toString(),
-				// Toast.LENGTH_LONG).show();
-
-				if (c.getCount() > 0) {
-					id = c.getString(c.getColumnIndex(Contacts._ID));
+				if (c.moveToFirst()) {
+					id = c.getString(c
+							.getColumnIndex(ContactsContract.Contacts._ID));
 					c_name = c.getString(c
 							.getColumnIndex(Contacts.DISPLAY_NAME));
-
 					Cursor pCur = getActivity().getContentResolver().query(
 							Phone.CONTENT_URI,
 							null,
 							ContactsContract.CommonDataKinds.Phone.CONTACT_ID
 									+ " = " + id, null, null);
-					if (pCur.getCount() > 0) {
+					if (pCur.moveToFirst()) {
 						p_no = pCur
 								.getString(pCur.getColumnIndex(Phone.NUMBER));
 						connect.insert(c_name, p_no);
@@ -132,6 +117,7 @@ public class FragmentPeople extends Fragment {
 						Toast.makeText(getActivity(),
 								"No phone no for selected contact",
 								Toast.LENGTH_LONG).show();
+					
 					obj.peopleFlag = 1;
 					showListView();
 				}
