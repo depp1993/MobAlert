@@ -18,8 +18,8 @@
     <string name="emergency_alert">Emergency Alert</string>
     <string name="title_activity_people">People</string>
     <string name="title_activity_help">Help</string>
-    <string name="add_new_contact">Add New Contact</string>
-    <string name="add_from_contacts">Add From Contacts</string>
+    <string name="add_new_contact">Add a new Contact</string>
+    <string name="add_from_contacts">Add from Contacts</string>
     <string name="alert_contact">Alert Contact</string>
     <string name="name_">Name:</string>
     <string name="phone_no_">Phone No:</string>

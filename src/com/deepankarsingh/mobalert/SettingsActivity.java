@@ -8,14 +8,11 @@ import android.preference.PreferenceManager;
 
 public class SettingsActivity extends PreferenceActivity implements
 		Preference.OnPreferenceChangeListener {
-
 	
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		addPreferencesFromResource(R.xml.preference_settings);
 		bindPreferenceSummaryToValue(findPreference(getString(R.string.key_message)));
 		bindPreferenceSummaryToValue(findPreference(getString(R.string.key_emergency_no)));

@@ -1,4 +1,5 @@
 package com.deepankarsingh.mobalert;
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.deepankarsingh.mobalert.helper.DbConnect;
 import com.deepankarsingh.mobalert.helper.MyAdapter;
@@ -29,17 +31,17 @@ public class FragmentPeople extends Fragment {
 
 	protected static final int PICK_CONTACT_FROM_LIST = 5;
 	int n;
-	ImageButton baddNew;
-	ImageButton baddContact;
-	ListView alertcontacts;
-	DbConnect connect;
-	Cursor name;
-	Cursor phone;
+	private ImageButton baddNew;
+	private ImageButton baddContact;
+	private ListView alertcontacts;
+	private DbConnect connect;
+	private Cursor name;
+	private Cursor phone;
 	MainActivity obj = new MainActivity();
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onStart() {
+		super.onStart();
 		showListView();
 	}
 
@@ -52,8 +54,8 @@ public class FragmentPeople extends Fragment {
 		baddContact = (ImageButton) rootView
 				.findViewById(R.id.baddNew_fromContacts);
 		alertcontacts = (ListView) rootView.findViewById(R.id.lcontact_list);
-		baddNew.setOnClickListener(new OnClickListener() {
 
+		baddNew.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(getActivity(), AddContact.class));
@@ -65,13 +67,10 @@ public class FragmentPeople extends Fragment {
 			@Override
 			public void onClick(View v) {
 
-				Intent i = new Intent(Intent.ACTION_PICK,
-						ContactsContract.Contacts.CONTENT_URI);
+				Intent i = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
 				startActivityForResult(i, PICK_CONTACT_FROM_LIST);
 			}
 		});
-
-		showListView();
 
 		alertcontacts.setOnItemClickListener(new OnItemClickListener() {
 
@@ -82,7 +81,6 @@ public class FragmentPeople extends Fragment {
 						.findViewById(R.id.tcontactName)).getText().toString());
 				String delnum = (((TextView) view
 						.findViewById(R.id.tcontactPhone)).getText().toString());
-
 				deleteAlert(delname, delnum);
 			}
 		});
@@ -103,26 +101,40 @@ public class FragmentPeople extends Fragment {
 				Cursor c = getActivity().getContentResolver().query(
 						contactData, null, null, null, null);
 
-				if (c.moveToFirst()) {
-					id = c.getString(c
-							.getColumnIndex(ContactsContract.Contacts._ID));
+				// StringBuffer buffer = new StringBuffer();
+				// while (c.moveToNext()) {
+				// int index = c.getColumnIndex(Contacts._ID);
+				// int index1 = c.getColumnIndex(Contacts.DISPLAY_NAME);
+				// String _ID = c.getString(index);
+				// String _name = c.getString(index1);
+				// buffer.append(_ID + " " + _name + "Row count = "
+				// + c.getCount() + "\n");
+				// }
+				//
+				// Toast.makeText(getActivity(), buffer.toString(),
+				// Toast.LENGTH_LONG).show();
+
+				if (c.getCount() > 0) {
+					id = c.getString(c.getColumnIndex(Contacts._ID));
 					c_name = c.getString(c
 							.getColumnIndex(Contacts.DISPLAY_NAME));
 
+					Cursor pCur = getActivity().getContentResolver().query(
+							Phone.CONTENT_URI,
+							null,
+							ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+									+ " = " + id, null, null);
+					if (pCur.getCount() > 0) {
+						p_no = pCur
+								.getString(pCur.getColumnIndex(Phone.NUMBER));
+						connect.insert(c_name, p_no);
+					} else
+						Toast.makeText(getActivity(),
+								"No phone no for selected contact",
+								Toast.LENGTH_LONG).show();
+					obj.peopleFlag = 1;
+					showListView();
 				}
-				Cursor pCur = getActivity().getContentResolver().query(
-						Phone.CONTENT_URI,
-						null,
-						ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-								+ " = " + id, null, null);
-				if (pCur.moveToFirst()) {
-					p_no = pCur.getString(pCur.getColumnIndex(Phone.NUMBER));
-
-				}
-				connect.insert(c_name, p_no);
-				obj.peopleFlag = 1;
-				showListView();
-
 			}
 		}
 	}
@@ -143,7 +155,6 @@ public class FragmentPeople extends Fragment {
 			phone_array.add(phone.getString(0));
 			phone.moveToNext();
 		}
-
 		MyAdapter adap = new MyAdapter(getActivity(), name_array, phone_array);
 		alertcontacts.setAdapter(adap);
 	}
@@ -156,8 +167,7 @@ public class FragmentPeople extends Fragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				connect.getdeletenum(num);
-				connect.getdeletename(name);
+				connect.delete(name, num);
 				showListView();
 			}
 		});
@@ -166,7 +176,6 @@ public class FragmentPeople extends Fragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-
 			}
 		});
 		alert.show();

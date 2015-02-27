@@ -12,19 +12,18 @@ import com.deepankarsingh.mobalert.helper.DbConnect;
 
 public class AddContact extends ActionBarActivity {
 
-	EditText ename;
-	EditText enumber;
+	private EditText ename;
+	private EditText enumber;
 	DbConnect connect = new DbConnect(this);
-	Button back;
-	Button add;
-	String name;
-	String number;
+	private Button back;
+	private Button add;
+	private String name;
+	private String number;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_contact);
-
 		ename = (EditText) findViewById(R.id.ename);
 		enumber = (EditText) findViewById(R.id.ephoneNo);
 		add = (Button) findViewById(R.id.badd);
@@ -48,13 +47,10 @@ public class AddContact extends ActionBarActivity {
 			}
 		});
 		back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				onBackPressed();
 			}
 		});
-
 	}
-
 }
