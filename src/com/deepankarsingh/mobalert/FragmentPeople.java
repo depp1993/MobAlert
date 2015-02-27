@@ -1,5 +1,4 @@
 package com.deepankarsingh.mobalert;
-
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -38,10 +37,6 @@ public class FragmentPeople extends Fragment {
 	Cursor phone;
 	MainActivity obj = new MainActivity();
 
-	public FragmentPeople() {
-
-	}
-
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -51,7 +46,6 @@ public class FragmentPeople extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View rootView = inflater.inflate(R.layout.fragment_people, container,
 				false);
 		baddNew = (ImageButton) rootView.findViewById(R.id.baddNew);

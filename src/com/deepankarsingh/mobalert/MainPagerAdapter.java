@@ -1,23 +1,20 @@
 package com.deepankarsingh.mobalert;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class MainPagerAdapter extends FragmentPagerAdapter {
-	Context context;
-	FragmentManager fragmentManager;
+public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
-	public MainPagerAdapter(FragmentManager fm, Context context) {
+	//View pager Adapter class to create two fragment views on viewpager
+	public MainPagerAdapter(FragmentManager fm) {
 		super(fm);
-		this.context = context;
-		this.fragmentManager = fm;
 	}
-
+	//getItem is called everytime to create a view on view pager
 	@Override
 	public Fragment getItem(int arg0) {
 		Fragment frag = null;
+		//two pages : emergency call and emergency message
 		if (arg0 == 0) {
 			frag = new FragmentMain();
 		}
@@ -31,5 +28,4 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 	public int getCount() {
 		return 2;
 	}
-
 }

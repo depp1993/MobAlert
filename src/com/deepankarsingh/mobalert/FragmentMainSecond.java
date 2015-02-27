@@ -65,6 +65,8 @@ public class FragmentMainSecond extends Fragment {
 		return rootView;
 	}
 
+	
+	//phone call listener to start the app after call is made
 	private class PhoneCallListener extends PhoneStateListener {
 
 		private boolean isPhoneCalling = false;
@@ -77,14 +79,11 @@ public class FragmentMainSecond extends Fragment {
 			}
 
 			if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
-
 				isPhoneCalling = true;
 			}
 
 			if (TelephonyManager.CALL_STATE_IDLE == state) {
-
 				if (isPhoneCalling) {
-
 					// restart app
 					Intent i = getActivity().getPackageManager()
 							.getLaunchIntentForPackage(
@@ -93,7 +92,6 @@ public class FragmentMainSecond extends Fragment {
 					startActivity(i);
 					isPhoneCalling = false;
 				}
-
 			}
 		}
 	}

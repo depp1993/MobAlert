@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 public class FragmentHelp extends Fragment {
 
-	public FragmentHelp() {
-
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
