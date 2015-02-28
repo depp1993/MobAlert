@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.deepankarsingh.mobalert.helper.DbConnect;
 
 public class FragmentMain extends Fragment implements OnClickListener {
-	
+
 	private SpeechRecognizer sr;
 	private Button cancel;
 	private Button alertb;
@@ -47,15 +47,14 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		tvsayhelp.setTypeface(typeFace);
 		alertb = (Button) rootView.findViewById(R.id.b_alert);
 		alertb.setOnClickListener(this);
-		flag = 0; 
+		flag = 0;
 		return rootView;
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
-		if(flag == 0)
-		{
+		if (flag == 0) {
 			sr = SpeechRecognizer.createSpeechRecognizer(getActivity());
 			sr.setRecognitionListener(new listener());
 			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -75,14 +74,15 @@ public class FragmentMain extends Fragment implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		sr.destroy(); //when clicked, stop listening.
-		//database connectivity need to check if there is name in the emergency contacts or not.
+		sr.destroy(); // when clicked, stop listening.
+		// database connectivity need to check if there is name in the emergency
+		// contacts or not.
 		final DbConnect db = new DbConnect(getActivity());
 		n = db.getInfo().getCount();
 		db.close();
 		if (v.getId() == R.id.b_alert) {
 			if (n != 0) {
-				//creating a custom dialog box for animation
+				// creating a custom dialog box for animation
 				cust = new Dialog(getActivity());
 				cust.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				cust.setContentView(R.layout.custom_dialogbox);
@@ -97,15 +97,15 @@ public class FragmentMain extends Fragment implements OnClickListener {
 				frameAnimation.start();
 				cust.show();
 				checkIfAnimationDone(frameAnimation);
-				
+
 			} else {
 				Toast.makeText(getActivity(),
 						"No Emergency Contacts, add Emergency Contacts",
 						Toast.LENGTH_SHORT).show();
 				flag = 1;
-				
+
 				// to start fragment people activity
-				
+
 				// Fragment frag = new FragmentPeople();
 				// FragmentManager fragmentManager = getFragmentManager();
 				// FragmentTransaction fragmentTransaction = fragmentManager
@@ -121,8 +121,9 @@ public class FragmentMain extends Fragment implements OnClickListener {
 			}
 		}
 	}
-	
-	//for animated notification, handling completion of task using android handler class
+
+	// for animated notification, handling completion of task using android
+	// handler class
 	private void checkIfAnimationDone(AnimationDrawable anim) {
 		final AnimationDrawable a = anim;
 		int timeBetweenChecks = 350;
@@ -145,7 +146,8 @@ public class FragmentMain extends Fragment implements OnClickListener {
 				cust.cancel();
 				sr = SpeechRecognizer.createSpeechRecognizer(getActivity());
 				sr.setRecognitionListener(new listener());
-				Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+				Intent intent = new Intent(
+						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 						RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 				intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
@@ -158,13 +160,11 @@ public class FragmentMain extends Fragment implements OnClickListener {
 	}
 
 	class listener implements RecognitionListener {
-		
+
 		public void onReadyForSpeech(Bundle params) {
-			Log.d("CHECK","onReadyForSpeech");
 		}
 
 		public void onBeginningOfSpeech() {
-			Log.d("CHECK","onBeginningOfSpeech");
 		}
 
 		public void onRmsChanged(float rmsdB) {
@@ -174,19 +174,19 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		}
 
 		public void onEndOfSpeech() {
-			Log.d("CHECK","onEndOfSpeech");
 		}
 
-		//if error , start listening again
+		// if error , start listening again
 		public void onError(int error) {
-			Log.d("CHECK","error" + error);
-			Toast.makeText(getActivity(), "Not able to recognise 'Help'!", Toast.LENGTH_SHORT).show();
+			Log.d("CHECK", "error" + error);
+			Toast.makeText(getActivity(), "Not able to recognise 'Help'!",
+					Toast.LENGTH_SHORT).show();
 			sr.destroy();
-			if(flag == 0)
-			{	
+			if (flag == 0) {
 				sr = SpeechRecognizer.createSpeechRecognizer(getActivity());
 				sr.setRecognitionListener(new listener());
-				Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+				Intent intent = new Intent(
+						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 						RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 				intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
@@ -195,31 +195,32 @@ public class FragmentMain extends Fragment implements OnClickListener {
 				sr.startListening(intent);
 			}
 		}
-		//results after speech recognintion
+
+		// results after speech recognintion
 		public void onResults(Bundle results) {
-			Log.d("CHECK","onResults");
-			ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+			ArrayList<String> data = results
+					.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 			StringTokenizer st = new StringTokenizer(data.get(0));
-			while(st.hasMoreElements())
-			{
+			while (st.hasMoreElements()) {
 				String str = st.nextToken();
-				//due to wrong recognition of help by speechrocgniser.
-				//help is recognised as hello, home, hell sometimes by the android speech recogniser
+				// due to wrong recognition of help by speechrocgniser.
+				// help is recognised as hello, home, hell sometimes by the
+				// android speech recogniser
 				if (str.equals("help") || str.equals("hello")
-						|| str.equals("home")
-						|| str.equals("hell")) {
+						|| str.equals("home") || str.equals("hell")) {
 					onClick(alertb);
 					flag = 1;
 					break;
 				}
 			}
 			sr.destroy();
-			if(flag == 0)
-			{
-				Toast.makeText(getActivity(), "Not able to recognise 'Help'!", Toast.LENGTH_SHORT).show();
+			if (flag == 0) {
+				Toast.makeText(getActivity(), "Not able to recognise 'Help'!",
+						Toast.LENGTH_SHORT).show();
 				sr = SpeechRecognizer.createSpeechRecognizer(getActivity());
 				sr.setRecognitionListener(new listener());
-				Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+				Intent intent = new Intent(
+						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 						RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 				intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
@@ -236,5 +237,5 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		@Override
 		public void onEvent(int eventType, Bundle params) {
 		}
-	}	
+	}
 }

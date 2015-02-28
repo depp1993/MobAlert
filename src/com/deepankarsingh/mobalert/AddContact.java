@@ -14,7 +14,7 @@ public class AddContact extends ActionBarActivity {
 
 	private EditText ename;
 	private EditText enumber;
-	DbConnect connect = new DbConnect(this);
+	private DbConnect connect = new DbConnect(this);
 	private Button back;
 	private Button add;
 	private String name;
