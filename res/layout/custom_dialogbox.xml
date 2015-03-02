@@ -20,7 +20,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/ractanglebutton"
+        android:background="@drawable/rectanglebutton"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/cancel"
         android:textColor="#FFFFFF"
