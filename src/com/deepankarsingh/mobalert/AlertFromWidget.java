@@ -59,6 +59,7 @@ public class AlertFromWidget extends Service implements LocationListener {
 					"Add emergency contacts first", Toast.LENGTH_LONG).show();
 			stopSelf();
 		} else {
+			
 			NetworkCheck obj = new NetworkCheck(this);
 			obj.execute();
 			Toast.makeText(getApplicationContext(), "Sending Emergency Alert",

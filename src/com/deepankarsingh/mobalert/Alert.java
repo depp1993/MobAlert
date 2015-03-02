@@ -252,10 +252,9 @@ public class Alert extends ActionBarActivity {
 				Log.i("Phone No = ", builder.toString());
 				ArrayList<String> divMessage = smsManager
 						.divideMessage(message);
-				for (int j = 0; j < divMessage.size(); j++) { // smsManager.sendTextMessage(divMessage.get(j),
-																// null,
-																// message,
-																// null, null);
+				for (int j = 0; j < divMessage.size(); j++) {
+					// smsManager.sendTextMessage(divMessage.get(j), null,
+					// message, null, null);
 					Toast.makeText(getApplicationContext(),
 							i + " " + j + " " + divMessage.get(j),
 							Toast.LENGTH_LONG).show();

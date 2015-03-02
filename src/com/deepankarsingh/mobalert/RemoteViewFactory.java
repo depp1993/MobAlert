@@ -14,8 +14,7 @@ import com.deepankarsingh.mobalert.helper.DbConnect;
 public class RemoteViewFactory implements RemoteViewsFactory {
 
 	private Context context = null;
-	@SuppressWarnings("unused")
-	private int appWidgetId;
+	protected int appWidgetId;
 
 	DbConnect connect;
 	Cursor name;
