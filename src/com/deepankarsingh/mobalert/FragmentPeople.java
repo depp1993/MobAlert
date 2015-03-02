@@ -35,7 +35,6 @@ public class FragmentPeople extends Fragment {
 	private ListView alertcontacts;
 	private DbConnect db;
 	private Cursor info;
-	MainActivity obj = new MainActivity();
 
 	@Override
 	public void onStart() {
@@ -116,7 +115,6 @@ public class FragmentPeople extends Fragment {
 							p_no = pCur.getString(pCur
 									.getColumnIndex(Phone.NUMBER));
 							db.insert(c_name, p_no);
-							obj.peopleFlag = 1;
 						}
 					}
 				}
@@ -128,10 +126,10 @@ public class FragmentPeople extends Fragment {
 
 		db = new DbConnect(getActivity());
 		info = db.getInfo();
-		
+
 		ArrayList<String> name_array = new ArrayList<String>();
 		ArrayList<String> phone_array = new ArrayList<String>();
-		
+
 		while (info.moveToNext()) {
 			String n = info.getString(info.getColumnIndex(DbConnect.NAME));
 			name_array.add(n);

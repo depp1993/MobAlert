@@ -13,7 +13,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,15 +73,13 @@ public class FragmentMain extends Fragment implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		sr.destroy(); // when clicked, stop listening.
-		// database connectivity need to check if there is name in the emergency
-		// contacts or not.
+		sr.destroy();
 		final DbConnect db = new DbConnect(getActivity());
 		n = db.getInfo().getCount();
 		db.close();
 		if (v.getId() == R.id.b_alert) {
 			if (n != 0) {
-				// creating a custom dialog box for animation
+
 				cust = new Dialog(getActivity());
 				cust.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				cust.setContentView(R.layout.custom_dialogbox);
@@ -103,27 +100,10 @@ public class FragmentMain extends Fragment implements OnClickListener {
 						"No Emergency Contacts, add Emergency Contacts",
 						Toast.LENGTH_SHORT).show();
 				flag = 1;
-
-				// to start fragment people activity
-
-				// Fragment frag = new FragmentPeople();
-				// FragmentManager fragmentManager = getFragmentManager();
-				// FragmentTransaction fragmentTransaction = fragmentManager
-				// .beginTransaction();
-				// fragmentTransaction.setCustomAnimations(R.anim.frag_slide_in,
-				// R.anim.frag_slide_out);
-				// fragmentTransaction.replace(R.id.main_container, frag);
-				// fragmentTransaction.commit();
-				// getActivity().getActionBar().setTitle("People");
-				// ListView mDrawerList = (ListView) getActivity().findViewById(
-				// R.id.left_drawer);
-				// mDrawerList.setItemChecked(1, true);
 			}
 		}
 	}
 
-	// for animated notification, handling completion of task using android
-	// handler class
 	private void checkIfAnimationDone(AnimationDrawable anim) {
 		final AnimationDrawable a = anim;
 		int timeBetweenChecks = 350;
@@ -176,9 +156,7 @@ public class FragmentMain extends Fragment implements OnClickListener {
 		public void onEndOfSpeech() {
 		}
 
-		// if error , start listening again
 		public void onError(int error) {
-			Log.d("CHECK", "error" + error);
 			Toast.makeText(getActivity(), "Not able to recognise 'Help'!",
 					Toast.LENGTH_SHORT).show();
 			sr.destroy();
@@ -196,16 +174,13 @@ public class FragmentMain extends Fragment implements OnClickListener {
 			}
 		}
 
-		// results after speech recognintion
 		public void onResults(Bundle results) {
 			ArrayList<String> data = results
 					.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 			StringTokenizer st = new StringTokenizer(data.get(0));
 			while (st.hasMoreElements()) {
 				String str = st.nextToken();
-				// due to wrong recognition of help by speechrocgniser.
-				// help is recognised as hello, home, hell sometimes by the
-				// android speech recogniser
+
 				if (str.equals("help") || str.equals("hello")
 						|| str.equals("home") || str.equals("hell")) {
 					onClick(alertb);

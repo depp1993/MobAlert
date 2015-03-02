@@ -2,7 +2,10 @@ package com.deepankarsingh.mobalert;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,97 +18,169 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements TabListener {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
-	// Instance variables for navigation drawer
-	
+public class MainActivity extends ActionBarActivity implements TabListener,
+		ConnectionCallbacks, OnConnectionFailedListener {
+
 	private DrawerLayout mDrawerLayout;
 	public ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private CharSequence mDrawerTitle;
+	private CharSequence mAppTitle;
 	private CharSequence mTitle;
 	private String[] mNavTitles;
 	private FrameLayout mMainContainer;
+	protected LocationProvider loc;
 	public int selectedPosition = -1;
-	// Instance variable for Actionbar tabs and viewpager
-	private ViewPager viewPager;
+
+	protected ViewPager viewPager;
 	private ActionBar actionBar;
 	private ActionBar.Tab tab1;
 	private ActionBar.Tab tab2;
-	
+
+	public static GoogleApiClient mGoogleApiClient;
+	protected Location mLastLocation;
+	public static Boolean mLastLocationUpdated;
+
 	public int peopleFlag = 0;
+
+	protected void buildGoogleApiClient() {
+		mGoogleApiClient = new GoogleApiClient.Builder(this)
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.addApi(LocationServices.API).build();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (!mGoogleApiClient.isConnected()) {
+			mGoogleApiClient.connect();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mGoogleApiClient.isConnected()) {
+			mGoogleApiClient.disconnect();
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		//drawer layout in activity_main.xml
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		// Viewpager instance of main activity
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		// Actionbar instance variable
-		actionBar = getSupportActionBar();
-		// Main container for diffrent fragments
-		mMainContainer = (FrameLayout) findViewById(R.id.main_container);
-		// Adding tabs to the action bar instance
-		tab1 = actionBar.newTab();
-		tab1.setText("Emergency Alert");
-		tab1.setTabListener(this);
-		actionBar.addTab(tab1);
+		int status = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(getApplicationContext());
+		if (status != ConnectionResult.SUCCESS) {
+			GooglePlayServicesUtil.getErrorDialog(status, MainActivity.this, 1)
+					.show();
+		} else {
+			buildGoogleApiClient();
+			setContentView(R.layout.activity_main);
+			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			viewPager = (ViewPager) findViewById(R.id.pager);
+			actionBar = getSupportActionBar();
+			mMainContainer = (FrameLayout) findViewById(R.id.main_container);
 
-		tab2 = actionBar.newTab();
-		tab2.setText("Emergency Call");
-		tab2.setTabListener(this);
-		actionBar.addTab(tab2);
+			tab1 = actionBar.newTab();
+			tab1.setText("Emergency Alert");
+			tab1.setTabListener(this);
+			actionBar.addTab(tab1);
 
-		// Navigation Drawer functions
-		mTitle = mDrawerTitle = getTitle(); // returns the original title of the
-											// application, mTitle gets updated
-											// for each navigation
-		mNavTitles = getResources().getStringArray(R.array.nav_array); // navigation titles
-		
-		mDrawerList = (ListView) findViewById(R.id.left_drawer); //left drawer listview
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START); //shadow settings for drawer layout
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_list_item, mNavTitles)); //listview populated
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener()); //setting listener to the list items
-		//DrawerItemClickListener is a sub class which implements OnClickListener fot ListView
-		getActionBar().setDisplayHomeAsUpEnabled(true); //actionbar home button displayed and enabled as true 
-		getActionBar().setHomeButtonEnabled(true); // to open drawer
-		//Instance variable for the action bar toggle and setting actions to perform
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close) {
+			tab2 = actionBar.newTab();
+			tab2.setText("Emergency Call");
+			tab2.setTabListener(this);
+			actionBar.addTab(tab2);
 
-			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(mTitle);
+			mTitle = mAppTitle = getTitle();
+			mNavTitles = getResources().getStringArray(R.array.nav_array);
+
+			mDrawerList = (ListView) findViewById(R.id.left_drawer);
+			mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+					GravityCompat.START);
+			mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+					R.layout.drawer_list_item, mNavTitles));
+			mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setHomeButtonEnabled(true);
+			mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+					R.drawable.ic_drawer, R.string.drawer_open,
+					R.string.drawer_close) {
+
+				public void onDrawerClosed(View view) {
+					actionBar.setTitle(mTitle);
+				}
+
+				public void onDrawerOpened(View drawerView) {
+					actionBar.setTitle(mAppTitle);
+				}
+			};
+			mDrawerLayout.setDrawerListener(mDrawerToggle);
+			selectItem(0);
+		}
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+		boolean enabled = service
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		if (!enabled) {
+			Toast.makeText(getApplicationContext(), "GPS not enabled",
+					Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			startActivity(intent);
+			finish();
+		} else {
+
+			mLastLocation = LocationServices.FusedLocationApi
+					.getLastLocation(mGoogleApiClient);
+
+			if (mLastLocation == null) {
+				Log.d("mainActivity", "mLastLocation = NULL");
+				mLastLocationUpdated = false;
+				loc = new LocationProvider();
+			} else {
+				Log.d("mainActivity", "mLastLocation != NULL");
+				mLastLocationUpdated = true;
 			}
-			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
-			}
-		};
-		mDrawerLayout.setDrawerListener(mDrawerToggle); // setting Drawer listener to the navigation drawer
-		selectItem(0); //selecting first Navigation item ( home ) as activity creates
-	} // end of onCreate()
-	
+		}
+	}
+
+	@Override
+	public void onConnectionSuspended(int arg0) {
+		mGoogleApiClient.connect();
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult arg0) {
+		mGoogleApiClient.connect();
+	}
+
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
-		getActionBar().setTitle(mTitle);
+		actionBar.setTitle(mTitle);
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
@@ -123,28 +198,40 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
 
-	//select Item from the navigation drawer
-	
 	public void selectItem(int position) {
 
-		if (position == 0) {
+		if (position == 0 && selectedPosition == 0) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+			mDrawerList.setItemChecked(position, true);
+		}
+		if (position == 1 && selectedPosition == 1) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+			mDrawerList.setItemChecked(position, true);
+		}
+		if (position == 2 && selectedPosition == 2) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+		if (position == 3 && selectedPosition == 3) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+			mDrawerList.setItemChecked(position, true);
+		}
 
-			//Viewpager configuration
+		if (position == 0 && selectedPosition != 0) {
 			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			selectedPosition = position;
-			//setting viewpager adapter to create views
 			viewPager.setAdapter(new MainPagerAdapter(
 					getSupportFragmentManager()));
 			actionBar.selectTab(tab1);
-			//setting view pager onpage change listener to create views when page is scrolled
 			viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 				@Override
@@ -154,7 +241,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 
 				@Override
 				public void onPageScrolled(int arg0, float arg1, int arg2) {
-				
+
 				}
 
 				@Override
@@ -170,11 +257,12 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 					}
 				}
 			});
+			setTitle(mAppTitle);
 			viewPager.setVisibility(View.VISIBLE);
 			mMainContainer.setVisibility(View.INVISIBLE);
+			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 		if (position == 1 && selectedPosition != 1) {
-			new FragmentMain();
 			FragmentMain.flag = 1;
 			selectedPosition = position;
 			viewPager.setVisibility(View.INVISIBLE);
@@ -193,17 +281,12 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 		if (position == 2 && selectedPosition != 2) {
-			new FragmentMain();
 			FragmentMain.flag = 1;
 			selectedPosition = position;
 			startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-
-			mDrawerList.setItemChecked(position, true);
-			setTitle(mNavTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 		if (position == 3 && selectedPosition != 3) {
-			new FragmentMain();
 			FragmentMain.flag = 1;
 			selectedPosition = position;
 			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -221,46 +304,27 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			setTitle(mNavTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
-		if (position == 0 && selectedPosition == 0) {
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
-		if (position == 1 && selectedPosition == 1) {
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
-		if (position == 2 && selectedPosition == 2) {
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
-		if (position == 3 && selectedPosition == 3) {
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
+
 	}
 
-	//Implemented methods for Tab Listener 
 	@Override
 	public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
 		viewPager.setCurrentItem(arg0.getPosition());
 	}
+
 	@Override
 	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
 	}
+
 	@Override
 	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-	}
-
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (peopleFlag == 1) {
-			selectItem(1);
-			peopleFlag = 0;
-		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		if (selectedPosition != 0) {
 			selectItem(0);
+			mDrawerList.setItemChecked(0, true);
 		} else {
 			super.onBackPressed();
 		}

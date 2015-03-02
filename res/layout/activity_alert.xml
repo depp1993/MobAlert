@@ -15,9 +15,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
-        android:text="Message header"
         android:textSize="30sp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tvMessage"
@@ -27,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
         android:gravity="center"
-        android:text="Message Content"
+        android:textSize="20sp"
         android:visibility="invisible" />
 
     <TextView
@@ -38,7 +37,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp"
         android:gravity="center"
-        android:text="Message Info"
         android:visibility="invisible" />
 
 </RelativeLayout>

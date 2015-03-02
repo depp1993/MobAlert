@@ -1,5 +1,6 @@
 package com.deepankarsingh.mobalert;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -8,7 +9,7 @@ import android.preference.PreferenceManager;
 
 public class SettingsActivity extends PreferenceActivity implements
 		Preference.OnPreferenceChangeListener {
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,5 @@ public class SettingsActivity extends PreferenceActivity implements
 			preference.setSummary(stringValue);
 		}
 		return true;
-	}
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
 	}
 }

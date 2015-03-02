@@ -27,7 +27,6 @@ public class FragmentMainSecond extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main_second,
 				container, false);
-
 		callb = (Button) rootView.findViewById(R.id.b_call);
 		TextView tvsayhelp = (TextView) rootView
 				.findViewById(R.id.TapOnThisButton);
@@ -65,8 +64,7 @@ public class FragmentMainSecond extends Fragment {
 		return rootView;
 	}
 
-	
-	//phone call listener to start the app after call is made
+	// phone call listener to start the app after call is made
 	private class PhoneCallListener extends PhoneStateListener {
 
 		private boolean isPhoneCalling = false;
