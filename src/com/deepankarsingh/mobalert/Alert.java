@@ -13,7 +13,6 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +66,7 @@ public class Alert extends ActionBarActivity {
 																		// found
 
 			} else {
-				Log.d("Alert", "Geocoder present");
+				// Log.d("Alert", "Geocoder present");
 				startIntentService();
 			}
 		} else {
@@ -98,7 +97,7 @@ public class Alert extends ActionBarActivity {
 
 				mAddressOutput = resultData
 						.getString(Constants.RESULT_DATA_KEY);
-				Log.i("Alert", mAddressOutput);
+				// Log.i("Alert", mAddressOutput);
 				sendMessage(getString(R.string.address_found)); // 3 - Address
 																// found,
 																// Location
@@ -249,15 +248,13 @@ public class Alert extends ActionBarActivity {
 			for (int i = 0; i < n; i++) {
 				builder.append(delim).append(phone_array.get(i));
 				delim = ";";
-				Log.i("Phone No = ", builder.toString());
+				// Log.i("Phone No = ", builder.toString());
 				ArrayList<String> divMessage = smsManager
 						.divideMessage(message);
 				for (int j = 0; j < divMessage.size(); j++) {
-					// smsManager.sendTextMessage(divMessage.get(j), null,
-					// message, null, null);
-					Toast.makeText(getApplicationContext(),
-							i + " " + j + " " + divMessage.get(j),
-							Toast.LENGTH_LONG).show();
+					smsManager.sendTextMessage(divMessage.get(j), null,
+							message, null, null);
+
 				}
 				builder.setLength(0);
 				delim = "";

@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import android.location.Location;
-import android.util.Log;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -31,21 +30,23 @@ public class LocationProvider implements LocationListener {
 
 	private void findLocation() {
 		if (MainActivity.mLastLocationUpdated) {
-			Log.d("LocationProvider", "mLastLocationUpdated == true");
+			// Log.d("LocationProvider", "mLastLocationUpdated == true");
 			startLocationUpdates();
 		} else {
-			Log.d("LocationProvider", "mLastLocationUpdated == false");
+			// Log.d("LocationProvider", "mLastLocationUpdated == false");
 			mCurrentLocation = LocationServices.FusedLocationApi
 					.getLastLocation(MainActivity.mGoogleApiClient);
-			if (mCurrentLocation == null)
-				Log.d("LocationProvider", "mCurrentLocation still NULL");
+			if (mCurrentLocation == null) {// Log.d("LocationProvider",
+											// "mCurrentLocation still NULL");
+			}
 			startLocationUpdates();
 		}
 	}
 
 	public Location getLocation() {
-		Log.d("LocationProvider", "Location: " + mCurrentLocation.getLatitude()
-				+ "\n" + mCurrentLocation.getLongitude());
+		// Log.d("LocationProvider", "Location: " +
+		// mCurrentLocation.getLatitude()
+		// + "\n" + mCurrentLocation.getLongitude());
 		mRequestingLocation = false;
 		return mCurrentLocation;
 	}
@@ -59,7 +60,7 @@ public class LocationProvider implements LocationListener {
 	}
 
 	protected void startLocationUpdates() {
-		Log.d("LocationProvider", "startLocationUpdates");
+		// Log.d("LocationProvider", "startLocationUpdates");
 		LocationServices.FusedLocationApi.requestLocationUpdates(
 				MainActivity.mGoogleApiClient, mLocationRequest, this);
 	}
@@ -73,7 +74,7 @@ public class LocationProvider implements LocationListener {
 	public void onLocationChanged(Location location) {
 		mCurrentLocation = location;
 		mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-		Log.d("onLocationChanged", mCurrentLocation.getLatitude() + "\n"
-				+ mCurrentLocation.getLongitude() + "\n" + mLastUpdateTime);
+		// Log.d("onLocationChanged", mCurrentLocation.getLatitude() + "\n"
+		// + mCurrentLocation.getLongitude() + "\n" + mLastUpdateTime);
 	}
 }

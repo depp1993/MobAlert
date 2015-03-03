@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -150,13 +149,12 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 
 			mLastLocation = LocationServices.FusedLocationApi
 					.getLastLocation(mGoogleApiClient);
-
 			if (mLastLocation == null) {
-				Log.d("mainActivity", "mLastLocation = NULL");
-				mLastLocationUpdated = false;
+				//Log.d("mainActivity", "mLastLocation = NULL");
+				//mLastLocationUpdated = false;
 				loc = new LocationProvider();
 			} else {
-				Log.d("mainActivity", "mLastLocation != NULL");
+				//Log.d("mainActivity", "mLastLocation != NULL");
 				mLastLocationUpdated = true;
 			}
 		}
@@ -169,6 +167,9 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
+		Toast.makeText(getApplicationContext(),
+				"Couldn't connect to Google Play Service. Retrying...", Toast.LENGTH_SHORT)
+				.show();
 		mGoogleApiClient.connect();
 	}
 

@@ -6,312 +6,338 @@
     android:padding="20dp"
     android:scrollbars="none" >
 
-    <TableLayout
-        android:id="@+id/tableLayout"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TableRow
-            android:id="@+id/firstrow"
+        <TextView
+            android:id="@+id/tvaboutMobAlertHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:text="@string/about_mobalert"
+            android:textColor="#FF4444"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/tvaboutMobAlert"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:text="@string/moalert_help"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tvaboutMobAlertHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/about_mobalert"
-                android:textColor="#FF4444"
-                android:textSize="35sp" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvaskForHelpHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ask_for_help_header"
+            android:textColor="#FF4444"
+            android:textSize="20sp" />
 
-        <TableRow
-            android:id="@+id/secondRow"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:text="@string/filler_new_row" />
+
+        <TextView
+            android:id="@+id/tvaskForHelp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:text="@string/ask_for_help"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvfeaturesHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/features"
+            android:textColor="#FF4444"
+            android:textSize="20sp" />
 
-        <TableRow
-            android:id="@+id/thirdRow"
+        <TextView
+            android:id="@+id/tvfeaturesstart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/features_start"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tvaboutMobAlert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/moalert_help"
-                android:textSize="20sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fourthRow"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fifthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tvaskForHelpHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ask_for_help_header"
-                android:textColor="#FF4444"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/sixthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/seventhRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tvaskForHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ask_for_help"
-                android:textSize="20sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/eightRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/ninthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tvfeaturesHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/features"
-                android:textColor="#FF4444"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tenthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/eleventhRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tvfeaturesstart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/features_start"
-                android:textSize="20sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/twelthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/thirteenRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp" >
 
             <ImageView
                 android:id="@+id/ivHelpScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:contentDescription="@string/help_screen"
+                android:layout_weight="1"
+                android:contentDescription="@string/fig_help_home_screen"
                 android:src="@drawable/screenhelp" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
+            <ImageView
+                android:id="@+id/ivCallScreen"
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/fig_call_screen"
+                android:src="@drawable/screencall" />
+        </LinearLayout>
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:orientation="horizontal"
+            android:paddingBottom="10dp" >
 
             <TextView
                 android:id="@+id/tvHelpScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/fig_help_home_screen"
                 android:textSize="20sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/ivCallScreen"
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:contentDescription="@string/call_screen"
-                android:src="@drawable/screencall" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" >
 
             <TextView
                 android:id="@+id/tvCallScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/fig_call_screen"
                 android:textSize="20sp" />
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/tvfeaturesbody1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/features_body1"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
+        <ImageView
+            android:id="@+id/ivNavigationDrawer"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:contentDescription="@string/fig_navigation_screen"
+            android:paddingBottom="10dp"
+            android:src="@drawable/navigationdrawer" />
 
-        <TableRow
-            android:id="@+id/fifteenRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/tvNavigationScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/fig_navigation_screen"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tvfeaturesbody1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/features_body1"
-                android:textSize="20sp" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvfeaturesbody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/featuresBody2"
+            android:textSize="20sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <ImageView
+            android:id="@+id/ivNotifyingContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:contentDescription="@string/fig_notifiying_contacts"
+            android:paddingBottom="10dp"
+            android:src="@drawable/notifyingcontacts" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvNotifyingcontactsScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/fig_notifiying_contacts"
+            android:textSize="20sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/tvfeaturesbody3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/featuresBody3"
+            android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/ivNavigationDrawer"
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:contentDescription="@string/navigation_drawer"
-                android:src="@drawable/navigationdrawer" />
-        </TableRow>
+        <ImageView
+            android:id="@+id/ivAlertMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:contentDescription="@string/fig_emergency_message"
+            android:paddingBottom="10dp"
+            android:src="@drawable/alertmessage" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/tvAlertMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/fig_emergency_message"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:text="@string/filler_new_row" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvfeaturesbody4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/featuresBody4"
+            android:textSize="20sp" />
 
-        <TableRow
+        <TextView
+            android:id="@+id/tvPeopleHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/emergency_contacts"
+            android:textColor="#FF4444"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvAddPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/peopleAdd"
+            android:textSize="20sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:orientation="horizontal"
+            android:paddingBottom="10dp" >
+
+            <ImageView
+                android:id="@+id/ivPeopleAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/fig_people_add"
+                android:src="@drawable/screenpeople" />
+
+            <ImageView
+                android:id="@+id/ivPeopleDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/fig_people_del"
+                android:src="@drawable/screenpeopledelete" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp" >
 
             <TextView
-                android:id="@+id/tvNavigationScreen"
+                android:id="@+id/tvPeopleAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/fig_navigation_screen"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fig_people_add"
                 android:textSize="20sp" />
-        </TableRow>
-    </TableLayout>
+
+            <TextView
+                android:id="@+id/tvPeopleDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fig_people_del"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvSettingsHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/settings"
+            android:textColor="#FF4444"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvSettingsInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/settings_info"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/ivSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:contentDescription="@string/fig_settings"
+            android:paddingBottom="10dp"
+            android:src="@drawable/screensettings" />
+
+        <TextView
+            android:id="@+id/tvSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="25dp"
+            android:text="@string/fig_settings"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvWidgetHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/widgetHeader"
+            android:textColor="#FF4444"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/tvWidget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/widgetInfo"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/ivWidget"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:contentDescription="@string/fig_widget"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_widget" />
+
+        <TextView
+            android:id="@+id/tvWidgetiimage"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="25dp"
+            android:text="@string/fig_widget"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </ScrollView>

@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.deepankarsingh.mobalert.helper.DbConnect;
@@ -59,7 +58,6 @@ public class AlertFromWidget extends Service implements LocationListener {
 					"Add emergency contacts first", Toast.LENGTH_LONG).show();
 			stopSelf();
 		} else {
-			
 			NetworkCheck obj = new NetworkCheck(this);
 			obj.execute();
 			Toast.makeText(getApplicationContext(), "Sending Emergency Alert",
@@ -72,7 +70,7 @@ public class AlertFromWidget extends Service implements LocationListener {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();
-		Log.d("Check", "isNetworkAvailable");
+		// Log.d("Check", "isNetworkAvailable");
 		return activeNetworkInfo != null;
 	}
 
@@ -104,7 +102,7 @@ public class AlertFromWidget extends Service implements LocationListener {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Log.d("Check", "doInBackground network check");
+			// Log.d("Check", "doInBackground network check");
 			return hasActiveInternetConnection(getApplicationContext());
 		}
 
@@ -114,23 +112,24 @@ public class AlertFromWidget extends Service implements LocationListener {
 
 			// Debug
 			if (result == true) {
-				Log.d("Check", "returned true");
+				// Log.d("Check", "returned true");
 			} else {
-				if (netThreadFailed == true)
-					Log.d("Check", "returned false due to netThreadFailure");
-				Log.d("Check", "returned false");
+				if (netThreadFailed == true) {
+					// Log.d("Check", "returned false due to netThreadFailure");
+				}
+				// Log.d("Check", "returned false");
 			}
 
 			if (result == true) {
-				Log.d("Check", "Calling location()");
+				// Log.d("Check", "Calling location()");
 				location();
 			} else {
-				Log.d("Check", "Toast No network/internet connection found");
+				// Log.d("Check", "Toast No network/internet connection found");
 				Toast.makeText(getApplicationContext(),
 						"No Network/Internet Connection Found",
 						Toast.LENGTH_LONG).show();
 				netConnection = false;
-				Log.d("Check", "calling send()");
+				// Log.d("Check", "calling send()");
 				send();
 			}
 		}
@@ -141,62 +140,65 @@ public class AlertFromWidget extends Service implements LocationListener {
 		loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria cri = new Criteria();
 		provider = loc.getBestProvider(cri, true);
-		Log.d("Check", "In location()");
-		Log.d("Check", provider);
+		// Log.d("Check", "In location()");
+		// Log.d("Check", provider);
 
 		// gettting location update to all providers
-		Log.d("Check", "requesting " + provider);
+		// Log.d("Check", "requesting " + provider);
 		loc.requestLocationUpdates(provider, 4000, 1, AlertFromWidget.this);
-		Log.d("Check", "requesting PASSIVE");
+		// Log.d("Check", "requesting PASSIVE");
 		loc.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 4000, 1,
 				AlertFromWidget.this);
-		Log.d("Check", "requesting GPS");
+		// Log.d("Check", "requesting GPS");
 		loc.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 1,
 				AlertFromWidget.this);
-		Log.d("Check", "requesting NETWORK");
+		// Log.d("Check", "requesting NETWORK");
 		loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 1,
 				AlertFromWidget.this);
 
 		if (provider == null) {
 
-			Log.d("Check", provider + " :provider is NULL");
+			// Log.d("Check", provider + " :provider is NULL");
 			Toast.makeText(getApplicationContext(),
 					"Location Not Recieved / No Location Provider Found",
 					Toast.LENGTH_SHORT).show();
 			isGPSOn = false;
-			Log.d("Check", "setting isGPSOn=false and calling send()");
+			// Log.d("Check", "setting isGPSOn=false and calling send()");
 			send();
 
 		} else {
-			Log.d("Check", provider + " :provider is not NULL");
+			// Log.d("Check", provider + " :provider is not NULL");
 			Location l = loc.getLastKnownLocation(provider);
 
 			// Debug
-			if (l == null)
-				Log.d("Check", "location l = null from provider:" + provider);
-			else
-				Log.d("Check", "location l != null from provider:" + provider);
-
+			if (l == null) { // Log.d("Check",
+								// "location l = null from provider:" +
+								// provider);
+			} else {// Log.d("Check", "location l != null from provider:" +
+					// provider);
+			}
 			if (l != null) {
-				Log.d("Check", "Location found: calling on location changed");
-				Log.d("Check", "remove updates");
+				// Log.d("Check",
+				// "Location found: calling on location changed");
+				// Log.d("Check", "remove updates");
 				loc.removeUpdates(AlertFromWidget.this);
 				onLocationChanged(l);
 			} else {
 
 				if (provider.equals("passive")) {
-					Log.d("Check",
-							"provider was passive, again checking for Location updates from PASSIVE provider");
+					// Log.d("Check",
+					// "provider was passive, again checking for Location updates from PASSIVE provider");
 					loc.requestLocationUpdates(
 							LocationManager.PASSIVE_PROVIDER, 1000, 1,
 							AlertFromWidget.this);
 					l = loc.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 				} else {
 
-					Log.d("Check",
-							"provider was "
-									+ provider
-									+ ", again checking for Location updates from NETWORK provider");
+					// Log.d("Check",
+					// "provider was "
+					// + provider
+					// +
+					// ", again checking for Location updates from NETWORK provider");
 					loc.requestLocationUpdates(
 							LocationManager.NETWORK_PROVIDER, 1000, 1,
 							AlertFromWidget.this);
@@ -205,20 +207,20 @@ public class AlertFromWidget extends Service implements LocationListener {
 				}
 				if (l == null) {
 
-					Log.d("Check", "again location l = null");
+					// Log.d("Check", "again location l = null");
 					Toast.makeText(getApplicationContext(),
 							"Location Not Recieved", Toast.LENGTH_LONG).show();
-					Log.d("Check", "removing updates");
+					// Log.d("Check", "removing updates");
 					loc.removeUpdates(AlertFromWidget.this);
 					locationFound = false;
-					Log.d("Check",
-							"seting locationFound == false, toast Location not recieved , calling send()");
+					// Log.d("Check",
+					// "seting locationFound == false, toast Location not recieved , calling send()");
 					send();
 				} else {
 
-					Log.d("Check",
-							"location was null first but then got location : calling onLocationChanged(l)");
-					Log.d("Check", "removing updates");
+					// Log.d("Check",
+					// "location was null first but then got location : calling onLocationChanged(l)");
+					// Log.d("Check", "removing updates");
 					loc.removeUpdates(AlertFromWidget.this);
 					onLocationChanged(l);
 				}
@@ -230,9 +232,9 @@ public class AlertFromWidget extends Service implements LocationListener {
 	public void onLocationChanged(Location location) {
 		latitude = location.getLatitude();
 		longitude = location.getLongitude();
-		Log.d("Check", "got latitude = " + Double.toString(latitude)
-				+ ", and longitude = " + Double.toString(longitude));
-		Log.d("Check", "caliling geocoder");
+		// Log.d("Check", "got latitude = " + Double.toString(latitude)
+		// + ", and longitude = " + Double.toString(longitude));
+		// Log.d("Check", "caliling geocoder");
 		MyGeoCoder obj = new MyGeoCoder(this);
 		obj.execute(location);
 	}
@@ -249,7 +251,7 @@ public class AlertFromWidget extends Service implements LocationListener {
 
 		@Override
 		protected String doInBackground(Location... params) {
-			Log.d("Check", "do In Backgorund of Geocoder");
+			// Log.d("Check", "do In Backgorund of Geocoder");
 
 			String info = "";
 			Location loc = params[0];
@@ -263,10 +265,10 @@ public class AlertFromWidget extends Service implements LocationListener {
 
 				}
 			} catch (IOException e) {
-				Log.d("Check", "geocoder thread failed");
-				Log.d("Check", "setting geoThreadFailed = true");
+				// Log.d("Check", "geocoder thread failed");
+				// Log.d("Check", "setting geoThreadFailed = true");
 				geoThreadFailed = true;
-				Log.d("Check", "retuning blank string as geocoded info");
+				// Log.d("Check", "retuning blank string as geocoded info");
 				return "";
 			}
 			return info;
@@ -275,12 +277,12 @@ public class AlertFromWidget extends Service implements LocationListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			Log.d("Check", "in on post execute of goecoder");
+			// Log.d("Check", "in on post execute of goecoder");
 
 			if (result != null) {
-				Log.d("Check", "got result which is not NULL");
+				// Log.d("Check", "got result which is not NULL");
 				geoLocation = result;
-				Log.d("Check", "caliling send()");
+				// Log.d("Check", "caliling send()");
 				send();
 			} else {
 				Toast.makeText(
@@ -340,8 +342,9 @@ public class AlertFromWidget extends Service implements LocationListener {
 		} else {
 
 			if (netConnection == true && netThreadFailed == false
-					&& geoThreadFailed == true && isGPSOn == true)
-				Log.d("Check", "ALL FINE");
+					&& geoThreadFailed == true && isGPSOn == true) { // Log.d("Check",
+																		// "ALL FINE");
+			}
 			String locationmap = "maps.google.com/maps?q=" + latitude + ","
 					+ longitude;
 			message = startMessage + "\nMy location : \n" + locationmap + "\n"
@@ -372,17 +375,15 @@ public class AlertFromWidget extends Service implements LocationListener {
 			for (int i = 0; i < n; i++) {
 				builder.append(delim).append(phone_array.get(i));
 				delim = ";";
-				smsManager.sendTextMessage(builder.toString(), null, message,
-						null, null);
-				Toast.makeText(
-						this,
-						"Emergency Message Sent to " + name_array.get(i)
-								+ " : " + builder.toString(), Toast.LENGTH_LONG)
-						.show();
+				ArrayList<String> divMessage = smsManager
+						.divideMessage(message);
+				for (int j = 0; j < divMessage.size(); j++) {
+					smsManager.sendTextMessage(divMessage.get(j), null,
+							message, null, null);
 
+				}
 				builder.setLength(0);
 				delim = "";
-
 			}
 			dbObj.close();
 			stopSelf();
@@ -394,23 +395,21 @@ public class AlertFromWidget extends Service implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
