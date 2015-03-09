@@ -2,7 +2,6 @@ package com.deepankarsingh.mobalert;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -52,8 +51,6 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 	private ActionBar.Tab tab2;
 
 	public static GoogleApiClient mGoogleApiClient;
-	protected Location mLastLocation;
-	public static Boolean mLastLocationUpdated;
 
 	public int peopleFlag = 0;
 
@@ -146,17 +143,7 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 			startActivity(intent);
 			finish();
 		} else {
-
-			mLastLocation = LocationServices.FusedLocationApi
-					.getLastLocation(mGoogleApiClient);
-			if (mLastLocation == null) {
-				//Log.d("mainActivity", "mLastLocation = NULL");
-				//mLastLocationUpdated = false;
-				loc = new LocationProvider();
-			} else {
-				//Log.d("mainActivity", "mLastLocation != NULL");
-				mLastLocationUpdated = true;
-			}
+			loc = new LocationProvider();
 		}
 	}
 
@@ -168,8 +155,8 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
 		Toast.makeText(getApplicationContext(),
-				"Couldn't connect to Google Play Service. Retrying...", Toast.LENGTH_SHORT)
-				.show();
+				"Couldn't connect to Google Play Service. Retrying...",
+				Toast.LENGTH_SHORT).show();
 		mGoogleApiClient.connect();
 	}
 

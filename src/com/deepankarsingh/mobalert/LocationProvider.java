@@ -23,23 +23,8 @@ public class LocationProvider implements LocationListener {
 			createLocationRequest();
 			mCurrentLocation = LocationServices.FusedLocationApi
 					.getLastLocation(MainActivity.mGoogleApiClient);
-			findLocation();
+			startLocationUpdates();
 			mRequestingLocation = true;
-		}
-	}
-
-	private void findLocation() {
-		if (MainActivity.mLastLocationUpdated) {
-			// Log.d("LocationProvider", "mLastLocationUpdated == true");
-			startLocationUpdates();
-		} else {
-			// Log.d("LocationProvider", "mLastLocationUpdated == false");
-			mCurrentLocation = LocationServices.FusedLocationApi
-					.getLastLocation(MainActivity.mGoogleApiClient);
-			if (mCurrentLocation == null) {// Log.d("LocationProvider",
-											// "mCurrentLocation still NULL");
-			}
-			startLocationUpdates();
 		}
 	}
 

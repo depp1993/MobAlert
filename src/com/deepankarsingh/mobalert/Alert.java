@@ -113,81 +113,6 @@ public class Alert extends ActionBarActivity {
 		}
 	}
 
-	/*
-	 * public void location() {
-	 * 
-	 * loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	 * Criteria cri = new Criteria(); provider = loc.getBestProvider(cri, true);
-	 * Log.d("Check", "In location()"); Log.d("Check", provider);
-	 * 
-	 * // gettting location update to all providers Log.d("Check", "requesting "
-	 * + provider); loc.requestLocationUpdates(provider, 4000, 1, Alert.this);
-	 * Log.d("Check", "requesting PASSIVE");
-	 * loc.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 4000, 1,
-	 * Alert.this); Log.d("Check", "requesting GPS");
-	 * loc.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 1,
-	 * Alert.this); Log.d("Check", "requesting NETWORK");
-	 * loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 1,
-	 * Alert.this);
-	 * 
-	 * if (provider == null) {
-	 * 
-	 * Log.d("Check", provider + " :provider is NULL");
-	 * Toast.makeText(getApplicationContext(),
-	 * "Location Not Recieved / No Location Provider Found",
-	 * Toast.LENGTH_SHORT).show(); // isGPSOn = false; Log.d("Check",
-	 * "setting isGPSOn=false and calling send()"); send();
-	 * 
-	 * } else { Log.d("Check", provider + " :provider is not NULL"); Location l
-	 * = loc.getLastKnownLocation(provider);
-	 * loc.requestLocationUpdates(provider, 1000, 1, Alert.this);
-	 * 
-	 * // Debug if (l == null) Log.d("Check", "location l = null from provider:"
-	 * + provider); else Log.d("Check", "location l != null from provider:" +
-	 * provider);
-	 * 
-	 * if (l != null) { Log.d("Check",
-	 * "Location found: calling on location changed"); Log.d("Check",
-	 * "remove updates"); loc.removeUpdates(Alert.this); onLocationChanged(l); }
-	 * else {
-	 * 
-	 * if (provider.equals("passive")) { Log.d("Check",
-	 * "provider was passive, again checking for Location updates from PASSIVE provider"
-	 * ); loc.requestLocationUpdates( LocationManager.PASSIVE_PROVIDER, 1000, 1,
-	 * Alert.this); l =
-	 * loc.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER); } else {
-	 * 
-	 * Log.d("Check", "provider was " + provider +
-	 * ", again checking for Location updates from NETWORK provider");
-	 * loc.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 1000, 1,
-	 * Alert.this);
-	 * 
-	 * l = loc.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); } if (l
-	 * == null) {
-	 * 
-	 * Log.d("Check", "again location l = null");
-	 * Toast.makeText(getApplicationContext(), "Location Not Recieved",
-	 * Toast.LENGTH_LONG) .show(); Log.d("Check", "removing updates");
-	 * loc.removeUpdates(Alert.this); locationFound = false; Log.d("Check",
-	 * "seting locationFound == false, toast Location not recieved , calling send()"
-	 * ); send(); } else {
-	 * 
-	 * Log.d("Check",
-	 * "location was null first but then got location : calling onLocationChanged(l)"
-	 * ); Log.d("Check", "removing updates"); loc.removeUpdates(Alert.this);
-	 * onLocationChanged(l); } } } }
-	 * 
-	 * @Override protected void onPostExecute(String result) {
-	 * super.onPostExecute(result); Log.d("Check",
-	 * "in on post execute of goecoder");
-	 * 
-	 * if (result != null) { Log.d("Check", "got result which is not NULL");
-	 * geoLocation = result; Log.d("Check", "caliling send()"); send(); } else {
-	 * Toast.makeText( context,
-	 * "Could not get the geocoded location. Sending your coordinates..",
-	 * Toast.LENGTH_LONG).show(); send(); } } }
-	 */
-
 	public void sendMessage(String locinfo) {
 
 		SharedPreferences pref = PreferenceManager
@@ -229,7 +154,6 @@ public class Alert extends ActionBarActivity {
 			tvMessage.setVisibility(View.VISIBLE);
 			tvInformation.setText("Location Not Found");
 			tvInformation.setVisibility(View.VISIBLE);
-
 		}
 
 		StringBuilder builder = new StringBuilder();
@@ -248,7 +172,6 @@ public class Alert extends ActionBarActivity {
 			for (int i = 0; i < n; i++) {
 				builder.append(delim).append(phone_array.get(i));
 				delim = ";";
-				// Log.i("Phone No = ", builder.toString());
 				ArrayList<String> divMessage = smsManager
 						.divideMessage(message);
 				for (int j = 0; j < divMessage.size(); j++) {
