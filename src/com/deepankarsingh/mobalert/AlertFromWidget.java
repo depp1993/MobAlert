@@ -378,8 +378,8 @@ public class AlertFromWidget extends Service implements LocationListener {
 				ArrayList<String> divMessage = smsManager
 						.divideMessage(message);
 				for (int j = 0; j < divMessage.size(); j++) {
-					smsManager.sendTextMessage(divMessage.get(j), null,
-							message, null, null);
+					smsManager.sendTextMessage(builder.toString(), null,
+							divMessage.get(j), null, null);
 
 				}
 				builder.setLength(0);

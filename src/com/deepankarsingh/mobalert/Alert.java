@@ -159,12 +159,13 @@ public class Alert extends ActionBarActivity {
 		StringBuilder builder = new StringBuilder();
 		String delim = "";
 		Cursor phone = dbObj.getphone();
+
 		ArrayList<String> phone_array = new ArrayList<String>();
 		while (phone.moveToNext()) {
 			phone_array.add(phone.getString(phone
 					.getColumnIndex(DbConnect.NUMBER)));
 		}
-
+		dbObj.close();
 		int n = phone_array.size();
 
 		try {
@@ -175,9 +176,8 @@ public class Alert extends ActionBarActivity {
 				ArrayList<String> divMessage = smsManager
 						.divideMessage(message);
 				for (int j = 0; j < divMessage.size(); j++) {
-					smsManager.sendTextMessage(divMessage.get(j), null,
-							message, null, null);
-
+					smsManager.sendTextMessage(builder.toString(), null,
+							divMessage.get(j), null, null);
 				}
 				builder.setLength(0);
 				delim = "";
