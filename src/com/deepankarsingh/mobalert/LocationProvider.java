@@ -45,9 +45,11 @@ public class LocationProvider implements LocationListener {
 	}
 
 	protected void startLocationUpdates() {
-		// Log.d("LocationProvider", "startLocationUpdates");
-		LocationServices.FusedLocationApi.requestLocationUpdates(
-				MainActivity.mGoogleApiClient, mLocationRequest, this);
+		if (MainActivity.mGoogleApiClient.isConnected()) {
+			// Log.d("LocationProvider","startLocationUpdates");
+			LocationServices.FusedLocationApi.requestLocationUpdates(
+					MainActivity.mGoogleApiClient, mLocationRequest, this);
+		}
 	}
 
 	protected void stopLocationUpdates() {

@@ -66,29 +66,16 @@ public class FragmentMainSecond extends Fragment {
 
 	private class PhoneCallListener extends PhoneStateListener {
 
-		private boolean isPhoneCalling = false;
-
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
 
 			if (TelephonyManager.CALL_STATE_RINGING == state) {
-
 			}
 
 			if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
-				isPhoneCalling = true;
 			}
 
 			if (TelephonyManager.CALL_STATE_IDLE == state) {
-				if (isPhoneCalling) {
-					
-					Intent i = getActivity().getPackageManager()
-							.getLaunchIntentForPackage(
-									getActivity().getPackageName());
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
-					isPhoneCalling = false;
-				}
 			}
 		}
 	}

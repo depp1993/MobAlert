@@ -13,6 +13,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -180,9 +181,8 @@ public class FragmentMain extends Fragment implements OnClickListener {
 			StringTokenizer st = new StringTokenizer(data.get(0));
 			while (st.hasMoreElements()) {
 				String str = st.nextToken();
-
-				if (str.equals("help") || str.equals("hello")
-						|| str.equals("home") || str.equals("hell")) {
+				Log.i("CHECK", str);
+				if (str.equals("help") || str.equals("hell")) {
 					onClick(alertb);
 					flag = 1;
 					break;
